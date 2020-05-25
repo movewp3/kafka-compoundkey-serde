@@ -3,13 +3,17 @@
 ![Build status](https://travis-ci.com/movewp3/kafka-compoundkey-serde.svg?branch=master) ![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.dwpbank.movewp3/kafka-compoundkey-serde/badge.svg)
 
 
-Using Avro-based keys for Kafka messages is tricky as the schema version id is part of the byte sequence that Kafka uses to determine key-based identity for that message (relevant for compaction), as well as partitioning when using the default partitioner. Unfortunately, the schema version id can change for schema changes that would not otherwise affect binary compatibility of the serialized keys.
+Using Avro-based keys for Kafka messages is tricky: the schema version id is part of the byte sequence that Kafka uses to determine key-based identity. Both the the default partitioner <sup id="s1">[[1]](#f1)</sup> as well as the log compactor only see this byte sequence including tha schema version id <sup id="s2">[[2]](#f2)</sup>. Unfortunately, the schema version id can change for schema changes that would not otherwise affect binary compatibility of the serialized keys, including backwards compatible schema changes. In consequence, records having the same logical avro key but different schema version ids will be distributed across different partitions. 
 
-This library is an attempt to ease using string-based keys derived from POJOs that expose composite key (i.e. key composed of multiple scalars).
+This library is an attempt to ease using string-based keys derived from POJOs that expose a composite key (i.e. key composed of multiple scalars). To promote decoupling serialized keys are to be viewed as opaque strings. Consequently, the deserialization implementation does not provide key decomposition.
+
+<b id="f1">[[1]](#s2)</b> [`DefaultPartitioner.java`](https://github.com/confluentinc/kafka/blob/master/clients/src/main/java/org/apache/kafka/clients/producer/internals/DefaultPartitioner.java)
+
+<b id="f2">[[2]](#s1)</b> [`AbstractKafkaAvroSerializer.java`](https://github.com/confluentinc/schema-registry/blob/master/avro-serializer/src/main/java/io/confluent/kafka/serializers/AbstractKafkaAvroSerializer.java)
 
 ## Usage
 
-To use this library, first add the following dependency to your POM:
+To add this library to your project include the following dependency in your POM:
 
 ```                                
 <dependency>
@@ -19,7 +23,56 @@ To use this library, first add the following dependency to your POM:
 </dependency>
 ```
 
-Adding composite key support to a POJO is as easy as implementing the `CompositeKeyAware` interface, overriding the `compoundKeyAttributes` method and returning the relevant key attributes from it. For an example, refer to the [`CompoundKeyProviderTest`](src/test/java/io/dwpbank/movewp3/kafka/compoundkey/CompoundKeyProviderTest.java) implementation.
+Then follow these three easy steps:
+
+### (1) Implement the interface `CompoundKeyProvider` in your record type
+
+```java
+private interface SampleCompoundKey extends CompoundKeyProvider { 
+  long tenantId();
+  long customerId();
+  @Override
+  default List<Object> compoundKeyAttributes() {
+    return Arrays.asList(tenantId(), customerId());
+  }
+}
+
+private class SampleProducerRecord implements SampleCompoundKey {
+  private long tenantId, customerId;
+  private String customerName;
+  
+  public SampleProducerRecord(long tenantId, long customerId, String customerName) {
+    this.tenantdId = tenantId; this.customerId = customerId; this.customerName = customerName;
+  } 
+  public long tenantId() { return tenantId; }
+  public long customerId() { return customerId; }
+}
+```
+
+### (2) Use `CompoundKeySerde` to publish and receive records 
+
+```java
+public class CompoundKeyDemo {
+  public static void main(Object[] args) {
+    try (var serde = new CompoundKeySerde()) { 
+      Properties props = new Properties();
+      props.put("bootstrap.servers", "localhost:9092");
+      props.put("key.serializer", serde.serializer().getClass().getName());
+      props.put("value.serializer", io.confluent.kafka.serializers.KafkaAvroSerializer.class);
+        
+      try (Producer<SampleCompoundKey, SampleProducerRecord> producer = new KafkaProducer<>(props)) {
+         SampleProducerRecord record = new SampleProducerRecord(4711, 815, "the customer"); 
+         producer.send(new ProducerRecord<SampleProducerKey, SampleProducerRecord>("my-topic", record, record));
+      }
+    }
+  }
+```
+
+### (3) Enjoy key encoding
+
+The key will be serialized as the opaque length encoded string `"4:4711-3:815"`.
+
+Another implementation example can be found in [`CompoundKeyProviderTest`](src/test/java/io/dwpbank/movewp3/kafka/compoundkey/CompoundKeyProviderTest.java) implementation.
 
 ## Contributing
 
