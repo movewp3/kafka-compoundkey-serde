@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
 
     <name>MoveWP3 Kafka Compound-Key Serde</name>
-    <description>FIXME</description>
+    <description>A library to make dealing with composite string keys on Kafka topics a little less painful</description>
     <url>https://github.com/movewp3/kafka-compoundkey-serde</url>
 
     <licenses>
