@@ -7,7 +7,7 @@ import java.util.List;
  * implementation of {@link #compoundKeyAttributes()} to be able to derive the attributes making up the key.
  */
 @FunctionalInterface
-public interface CompoundKeyAware {
+public interface CompoundKeyProvider {
 
   /**
    * Returns the key attributes making up the compound key to be constructed.
@@ -17,7 +17,7 @@ public interface CompoundKeyAware {
   List<Object> compoundKeyAttributes();
 
   /**
-   * Obtains a {@link CompoundKey} from this {@link CompoundKeyAware}. Internally, the default implementation makes use of the key
+   * Obtains a {@link CompoundKey} from this {@link CompoundKeyProvider}. Internally, the default implementation makes use of the key
    * attributes returned by {@link #compoundKeyAttributes()} to construct the resulting compound key.
    *
    * @return the corresponding {@link CompoundKey}
