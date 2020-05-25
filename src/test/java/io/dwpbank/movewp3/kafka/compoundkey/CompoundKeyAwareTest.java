@@ -11,7 +11,7 @@ public class CompoundKeyAwareTest {
   @Test
   public void suppliesCompoundKey() {
     var compundKeyAware = new SampleCompoundKeyAware("Hello", "world!", true);
-    assertThat(compundKeyAware.toCompoundKey().toString()).isEqualTo("5:Hello-6:world!-4:true-");
+    assertThat(compundKeyAware.toCompoundKey().toString()).isEqualTo("5:Hello-6:world!-4:true");
   }
 
   private static class SampleCompoundKeyAware implements CompoundKeyAware {

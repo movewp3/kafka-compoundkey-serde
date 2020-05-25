@@ -49,6 +49,6 @@ public class CompoundKeySerdeTest {
     var compoundKey = CompoundKey.of(() -> List.of("Hellö", "wörld"));
     var bytes = serde.serializer().serialize("topic", compoundKey);
 
-    assertThat(bytes).isEqualTo(new byte[]{53, 58, 72, 101, 108, 108, -61, -74, 45, 53, 58, 119, -61, -74, 114, 108, 100, 45});
+    assertThat(bytes).isEqualTo(new byte[]{53, 58, 72, 101, 108, 108, -61, -74, 45, 53, 58, 119, -61, -74, 114, 108, 100});
   }
 }
