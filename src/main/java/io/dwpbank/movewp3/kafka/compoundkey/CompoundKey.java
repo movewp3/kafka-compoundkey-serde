@@ -4,7 +4,7 @@ import io.dwpbank.movewp3.kafka.compoundkey.CompoundKeySerde.CompoundKeyDeserial
 import java.util.Objects;
 
 /**
- * A compound key capable of representing the key fields of a POJO (implementing {@link CompoundKeyAware}) as a unique string.
+ * A compound key capable of representing the key fields of a POJO (implementing {@link CompoundKeyProvider}) as a unique string.
  */
 public class CompoundKey {
 
@@ -20,7 +20,7 @@ public class CompoundKey {
   }
 
   /**
-   * Constructs a compound key from a {@link CompoundKeyStringBuilder}. Used when deriving a compound key from a {@link CompoundKeyAware}.
+   * Constructs a compound key from a {@link CompoundKeyStringBuilder}. Used when deriving a compound key from a {@link CompoundKeyProvider}.
    *
    * @param builder a builder that has already been equipped with the state / key information to be represented by this compound key
    */
@@ -29,15 +29,15 @@ public class CompoundKey {
   }
 
   /**
-   * Constrcuts a {@link CompoundKey} from a {@link CompoundKeyAware}.
+   * Constrcuts a {@link CompoundKey} from a {@link CompoundKeyProvider}.
    *
-   * @param compoundKeyAware the {@link CompoundKeyAware} to derive the {@link CompoundKey} from
+   * @param compoundKeyProvider the {@link CompoundKeyProvider} to derive the {@link CompoundKey} from
    * @return the derived compound key
    */
-  public static CompoundKey of(CompoundKeyAware compoundKeyAware) {
+  public static CompoundKey of(CompoundKeyProvider compoundKeyProvider) {
     CompoundKeyStringBuilder builder = new CompoundKeyStringBuilder();
 
-    for (Object partialKey : compoundKeyAware.compoundKeyAttributes()) {
+    for (Object partialKey : compoundKeyProvider.compoundKeyAttributes()) {
       builder.append(partialKey);
     }
 

@@ -15,6 +15,10 @@ public class CompoundKeyStringBuilder {
   }
 
   public CompoundKeyStringBuilder append(Object value) {
+    if (stringBuilder.length() > 0) {
+      stringBuilder.append('-');
+    }
+
     if (value == null) {
       return appendNullOrEmpty();
     } else if (value instanceof BigDecimal) {
@@ -25,7 +29,7 @@ public class CompoundKeyStringBuilder {
   }
 
   private CompoundKeyStringBuilder appendNullOrEmpty() {
-    stringBuilder.append("0:-");
+    stringBuilder.append("0:");
 
     return this;
   }
@@ -35,7 +39,7 @@ public class CompoundKeyStringBuilder {
       return appendNullOrEmpty();
     }
 
-    stringBuilder.append(str.length()).append(':').append(str).append('-');
+    stringBuilder.append(str.length()).append(':').append(str);
 
     return this;
   }
