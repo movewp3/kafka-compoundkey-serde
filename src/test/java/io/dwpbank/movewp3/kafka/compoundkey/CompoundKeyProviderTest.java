@@ -10,8 +10,8 @@ public class CompoundKeyProviderTest {
 
   @Test
   public void suppliesCompoundKey() {
-    var compundKeyAware = new SampleCompoundKeyProvider("Hello", "world!", true);
-    assertThat(compundKeyAware.toCompoundKey().toString()).isEqualTo("5:Hello-6:world!-4:true");
+    var compundKeyProvider = new SampleCompoundKeyProvider("Hello", "world!", true);
+    assertThat(compundKeyProvider.toCompoundKey().toString()).isEqualTo("5:Hello-6:world!-4:true");
   }
 
   private static class SampleCompoundKeyProvider implements CompoundKeyProvider {
