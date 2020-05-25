@@ -20,7 +20,7 @@ public class CompoundKeyStringBuilder {
     }
 
     if (value == null) {
-      return appendNullOrEmpty();
+      return appendNull();
     } else if (value instanceof BigDecimal) {
       return appendString(((BigDecimal) value).toPlainString());
     }
@@ -28,19 +28,13 @@ public class CompoundKeyStringBuilder {
     return appendString(value.toString());
   }
 
-  private CompoundKeyStringBuilder appendNullOrEmpty() {
-    stringBuilder.append("0:");
-
+  private CompoundKeyStringBuilder appendNull() {
+    stringBuilder.append("N");
     return this;
   }
 
   private CompoundKeyStringBuilder appendString(String str) {
-    if (str.isEmpty()) {
-      return appendNullOrEmpty();
-    }
-
     stringBuilder.append(str.length()).append(':').append(str);
-
     return this;
   }
 

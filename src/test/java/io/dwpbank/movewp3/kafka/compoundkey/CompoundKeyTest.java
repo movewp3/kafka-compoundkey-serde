@@ -11,7 +11,9 @@ public class CompoundKeyTest {
 
   @Test
   public void nullIsRenderedCorrectly() {
-    assertThat(CompoundKey.of(() -> Arrays.asList(new Object[]{null})).toString()).isEqualTo("0:");
+    assertThat(CompoundKey.of(() -> Arrays.asList(new Object[]{null})).toString()).isEqualTo("N");
+    assertThat(CompoundKey.of(() -> Arrays.asList(new Object[]{42, null})).toString()).isEqualTo("2:42-N");
+    assertThat(CompoundKey.of(() -> Arrays.asList(new Object[]{42, null, 23})).toString()).isEqualTo("2:42-N-2:23");
   }
 
   @Test
