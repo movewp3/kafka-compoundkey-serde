@@ -3,8 +3,11 @@ package io.dwpbank.movewp3.kafka.compoundkey;
 import java.util.List;
 
 /**
- * Extends an arbitrary POJO with the capability to derive a {@link CompoundKey} from it. <br/><br/> Implementers need to supply an
- * implementation of {@link #compoundKeyAttributes()} to be able to derive the attributes making up the key.
+ * Extends an arbitrary POJO with the capability to derive a {@link CompoundKey} from it.
+ *
+ * <p>
+ * Implementers need to supply an implementation of {@link #compoundKeyAttributes()} to be able to derive the attributes making up the key.
+ * </p>
  */
 @FunctionalInterface
 public interface CompoundKeyProvider {
