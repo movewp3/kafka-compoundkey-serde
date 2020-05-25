@@ -19,7 +19,7 @@ To use this library, first add the following dependency to your POM:
 </dependency>
 ```
 
-Adding composite key support to a POJO is as easy as implementing the `CompositeKeyAware` interface, overriding the `compoundKeyAttributes` method and returning the relevant key attributes from it. For an example, refer to the [`CompoundKeyAwareTest`](src/test/java/io/dwpbank/movewp3/kafka/compoundkey/CompoundKeyAwareTest.java) implementation.
+Adding composite key support to a POJO is as easy as implementing the `CompositeKeyAware` interface, overriding the `compoundKeyAttributes` method and returning the relevant key attributes from it. For an example, refer to the [`CompoundKeyProviderTest`](src/test/java/io/dwpbank/movewp3/kafka/compoundkey/CompoundKeyProviderTest.java) implementation.
 
 ## Contributing
 
