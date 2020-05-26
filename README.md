@@ -91,7 +91,7 @@ payload ::= PAYLOAD_ELEMENT | ('-' PAYLOAD_ELEMENT)
 
 ## Alternatives
 
-Alternatives are [netstrings](https://cr.yp.to/proto/netstrings.txt) and its derivative [tnetstrings](https://tnetstrings.info/). For our usecase, however, those are to mighty as they allow deserialization which we wanted to explicitly disallow. In addition we support `BigDecimal`.
+Alternatives are [netstrings](https://cr.yp.to/proto/netstrings.txt) and its derivative [tnetstrings](https://tnetstrings.info/). For our usecase, however, those are too mighty as they allow deserialization which we wanted to explicitly disallow. In addition we support `BigDecimal`.
 
 ## Contributing
 
