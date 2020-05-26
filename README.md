@@ -74,6 +74,21 @@ The key will be serialized as the opaque length encoded string `"4:4711-3:815"`.
 
 Another implementation example can be found in [`CompoundKeyProviderTest`](src/test/java/io/dwpbank/movewp3/kafka/compoundkey/CompoundKeyProviderTest.java) implementation.
 
+## Encoding
+
+Encoding is in UTF-8. The `CompoundKey`'s components are serialized using their `toString()` method except for `BigDecimal` using `BigDecimal.toPlainString()` and `null` values (explained in the grammar below).
+
+### Grammar
+
+```
+SIZE ::= [0-9]{1,9}
+COLON ::= ':'
+DATA ::= (.*)
+NULL ::= 'N'
+PAYLOAD_ELEMENT ::= (NULL | SIZE COLON DATA)
+payload ::= PAYLOAD_ELEMENT | ('-' PAYLOAD_ELEMENT)
+```
+
 ## Contributing
 
 Pull requests are welcome. In order to make sure that your change can be easily merged, please follow these steps:
