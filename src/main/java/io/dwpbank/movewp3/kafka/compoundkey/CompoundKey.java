@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 public class CompoundKey {
 
-  private String key;
+  private final String key;
 
   /**
    * Constructs a compound key from a pre-existing sting. Used by the {@link CompoundKeyDeserializer}.
