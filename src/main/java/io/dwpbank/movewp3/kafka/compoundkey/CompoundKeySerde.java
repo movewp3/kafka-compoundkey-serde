@@ -54,7 +54,7 @@ public class CompoundKeySerde extends WrapperSerde<CompoundKey> {
     public void configure(Map<String, ?> configs, boolean isKey) {
       if (!isKey) {
         throw new UnsupportedOperationException(
-            "CompoundKeyDeserializer only supports keys, but a key was provided for de-serialization instead");
+            "CompoundKeyDeserializer only supports keys, but a value was provided for de-serialization instead");
       }
 
       delegate.configure(Map.of(ENCODING_KEY, ENCODING_UTF8), isKey);
