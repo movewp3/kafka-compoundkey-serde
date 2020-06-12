@@ -31,19 +31,21 @@ Then follow these three easy steps:
 private interface SampleCompoundKey extends CompoundKeyProvider { 
   long tenantId();
   long customerId();
+
   @Override
   default List<Object> compoundKeyAttributes() {
-    return Arrays.asList(tenantId(), customerId());
+    return List.of(tenantId(), customerId());
   }
 }
 
 private class SampleProducerRecord implements SampleCompoundKey {
   private long tenantId, customerId;
   private String customerName;
-  
+
   public SampleProducerRecord(long tenantId, long customerId, String customerName) {
     this.tenantdId = tenantId; this.customerId = customerId; this.customerName = customerName;
-  } 
+  }
+
   public long tenantId() { return tenantId; }
   public long customerId() { return customerId; }
 }
@@ -54,16 +56,14 @@ private class SampleProducerRecord implements SampleCompoundKey {
 ```java
 public class CompoundKeyDemo {
   public static void main(Object[] args) {
-    try (var serde = new CompoundKeySerde()) { 
-      Properties props = new Properties();
-      props.put("bootstrap.servers", "localhost:9092");
-      props.put("key.serializer", serde.serializer().getClass().getName());
-      props.put("value.serializer", io.confluent.kafka.serializers.KafkaAvroSerializer.class);
+    Properties props = new Properties();
+    props.put("bootstrap.servers", "localhost:9092");
+    props.put("key.serializer", io.dwpbank.movewp3.kafka.compoundkey.CompoundKeySerde.CompoundKeySerializer.class);
+    props.put("value.serializer", io.confluent.kafka.serializers.KafkaAvroSerializer.class);
         
-      try (Producer<SampleCompoundKey, SampleProducerRecord> producer = new KafkaProducer<>(props)) {
-         SampleProducerRecord record = new SampleProducerRecord(4711, 815, "the customer"); 
-         producer.send(new ProducerRecord<SampleProducerKey, SampleProducerRecord>("my-topic", record, record));
-      }
+    try (Producer<SampleCompoundKey, SampleProducerRecord> producer = new KafkaProducer<>(props)) {
+       SampleProducerRecord record = new SampleProducerRecord(4711, 815, "the customer"); 
+       producer.send(new ProducerRecord<SampleProducerKey, SampleProducerRecord>("my-topic", record.toCompoundKey(), record));
     }
   }
 ```
@@ -103,4 +103,3 @@ Pull requests are welcome. In order to make sure that your change can be easily 
 * Don't forget to implement tests
 
 In case of any questions, feel open an issue in this project to discuss intended changes upfront.
-
