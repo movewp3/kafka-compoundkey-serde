@@ -22,6 +22,10 @@
             <name>Thilo-Alexander Ginkel</name>
             <email>tg@tgbyte.de</email>
         </developer>
+        <developer>
+            <name>Jörn Gersdorf</name>
+            <email>Joern.Gersdorf@dwpbank.de</email>
+        </developer>
     </developers>
 
     <scm>
