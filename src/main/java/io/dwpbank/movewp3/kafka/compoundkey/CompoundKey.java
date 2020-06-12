@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * A compound key capable of representing the key fields of a POJO (implementing {@link CompoundKeyProvider}) as a unique string.
  */
-public class CompoundKey {
+public final class CompoundKey {
 
   private final String key;
 
