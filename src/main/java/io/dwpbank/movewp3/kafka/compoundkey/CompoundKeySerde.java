@@ -21,7 +21,7 @@ public class CompoundKeySerde extends WrapperSerde<CompoundKey> {
     super(new CompoundKeySerializer(), new CompoundKeyDeserializer());
   }
 
-  static class CompoundKeySerializer implements Serializer<CompoundKey> {
+  public static class CompoundKeySerializer implements Serializer<CompoundKey> {
 
     private final StringSerializer delegate = new StringSerializer();
 
@@ -46,7 +46,7 @@ public class CompoundKeySerde extends WrapperSerde<CompoundKey> {
     }
   }
 
-  static class CompoundKeyDeserializer implements Deserializer<CompoundKey> {
+  public static class CompoundKeyDeserializer implements Deserializer<CompoundKey> {
 
     private final StringDeserializer delegate = new StringDeserializer();
 
