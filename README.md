@@ -1,6 +1,6 @@
 # dwpbank MoveWP3 Kafka Composite Key Serde
 
-![Build status](https://travis-ci.com/movewp3/kafka-compoundkey-serde.svg?branch=master) ![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.dwpbank.movewp3/kafka-compoundkey-serde/badge.svg)
+[![Build status](https://travis-ci.com/movewp3/kafka-compoundkey-serde.svg?branch=master)](https://img.shields.io/travis/com/movewp3/kafka-compoundkey-serde) [![Maven Central](https://img.shields.io/maven-central/v/io.dwpbank.movewp3/kafka-compoundkey-serde)](https://search.maven.org/artifact/io.dwpbank.movewp3/kafka-compoundkey-serde)
 
 
 Using Avro-based keys for Kafka messages is tricky: the schema version id is part of the byte sequence that Kafka uses to determine key-based identity. Both the the default partitioner <sup id="s1">[[1]](#f1)</sup> as well as the log compactor only see this byte sequence including tha schema version id <sup id="s2">[[2]](#f2)</sup>. Unfortunately, the schema version id can change for schema changes that would not otherwise affect binary compatibility of the serialized keys, including backwards compatible schema changes. In consequence, records having the same logical avro key but different schema version ids will be distributed across different partitions. 
