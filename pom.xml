@@ -178,7 +178,7 @@
                     <artifactId>versions-maven-plugin</artifactId>
                     <version>${versions-maven-plugin.version}</version>
                     <configuration>
-                        <rulesUri>file://${project.basedir}/version-rules.xml</rulesUri>
+                        <rulesUri>https://raw.githubusercontent.com/movewp3/version-rules/master/version-rules.xml</rulesUri>
                     </configuration>
                 </plugin>
                 <plugin>
