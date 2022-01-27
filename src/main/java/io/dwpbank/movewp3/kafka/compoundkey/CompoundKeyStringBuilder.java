@@ -14,6 +14,10 @@ public class CompoundKeyStringBuilder {
     this.stringBuilder = new StringBuilder(initialCapacity);
   }
 
+  public static CompoundKeyStringBuilder of() {
+    return new CompoundKeyStringBuilder();
+  }
+
   public CompoundKeyStringBuilder append(Object value) {
     if (stringBuilder.length() > 0) {
       stringBuilder.append('-');
