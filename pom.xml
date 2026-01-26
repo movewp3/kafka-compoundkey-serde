@@ -52,7 +52,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependencies -->
-        <assertj.version>3.20.2</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <junit-jupiter.version>5.8.0</junit-jupiter.version>
         <kafka-clients.version>[2.3.0,2.9.0)</kafka-clients.version>
 
